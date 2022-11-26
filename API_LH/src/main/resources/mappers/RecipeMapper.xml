@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.chiral.mapper.RecipeMapper">
+	<select id = "getRecipes" resultMap = "IngredientMap">
+    	select code, name
+    	from Recipe_Info
+    </select>
+    <resultMap type = "com.chiral.domain.RecipeVO" id = "RecipeMap">
+		<result	property="code" column="code" />
+		<result property="name" column="name" />
+	</resultMap>
+    <select id = "selectRecipe"
+     resultType = "com.chiral.domain.RecipeVO">
+    	select m.code, m.name,
+    	s.sequence, s.detail
+    	from Recipe_Info m
+    	left outer join Recipe_Sequence s on m.code=s.code
+    	where m.code = #{code}
+    </select>
+    <insert id = "registerRecipe">
+    	insert into Master_Info_Ingr
+    	( code, name, class_sup, class_sub, unit_sup, unit_sub )
+    	values
+    	( #{code}, #{name}, #{class_sup}, #{class_sub}, #{unit_sup}, #{unit_sup} )
+    </insert>
+    <delete id = "deleteRecipe">
+    	delete from Master_Info_Ingr
+    	where code = #{code}
+    </delete>
+    <update id = "updateRecipe">
+    	update Master_Info_Ingr
+    	set
+    	name = #{name},
+    	class_sup = #{class_sup},
+    	class_sub = #{class_sub},
+    	unit_sup = #{unit_sup},
+    	unit_sub = #{unit_sub}
+    	where code = #{code}
+    </update>
+</mapper>

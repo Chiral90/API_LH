@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 인터페이스와 xml을 묶어주는 코드 (아래) -->
+<mapper namespace = "com.chiral.mapper.IngredientMapper">
+	<select id = "getIngredients" resultMap = "IngredientMap">
+    	select code, name, class_sup, class_sub, unit_sup, unit_sub
+    	from Master_Info_Ingr
+    </select>
+    <resultMap type = "com.chiral.domain.IngredientVO" id = "IngredientMap">
+		<result	property="code" column="code" />
+		<result property="name" column="name" />
+		<result property="class_sup" column="class_sup" />
+		<result property="class_sub" column="class_sub" />
+		<result property="unit_sup" column="unit_sup" />
+		<result property="unit_sub" column="unit_sub" />
+	</resultMap>
+    <select id = "selectIngredient"
+     resultType = "com.chiral.domain.IngredientVO">
+    	select m.code, m.name,
+    	m.class_sup, m.class_sub, m.unit_sup, m.unit_sub
+    	from Master_Info_Ingr m
+    	where m.code = #{code}
+    </select>
+    <insert id = "registerIngredient">
+    	insert into Master_Info_Ingr
+    	( code, name, class_sup, class_sub, unit_sup, unit_sub )
+    	values
+    	( #{code}, #{name}, #{class_sup}, #{class_sub}, #{unit_sup}, #{unit_sup} )
+    </insert>
+    <delete id = "deleteIngredient">
+    	delete from Master_Info_Ingr
+    	where code = #{code}
+    </delete>
+    <update id = "updateIngredient">
+    	update Master_Info_Ingr
+    	set
+    	name = #{name},
+    	class_sup = #{class_sup},
+    	class_sub = #{class_sub},
+    	unit_sup = #{unit_sup},
+    	unit_sub = #{unit_sub}
+    	where code = #{code}
+    </update>
+    
+    <insert id = "registerCost">
+    	insert into Master_Cost_Ingr
+    	( code, regdate, unit_per_purchase, price, inuser, indate)
+    	values
+    	( #{ingr.code}, #{ri.regdate}, #{ingr.unit_per_purchase}
+    	, #{ingr.price}, #{ri.inuser}, #{ri.indate} )
+    </insert>
+</mapper>
