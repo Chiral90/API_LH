@@ -4,9 +4,13 @@ import lombok.Data;
 
 @Data
 public class RegInfo {
-	public String inuser;
+	private String inuser;
 	
 	private String indate;
 	
-	public String regdate;
+	private String regdate;
+	
+	public String toString() {
+		return "inuser : " + this.inuser + ", indate : " + this.indate + ", regdate : " + this.regdate;
+	}
 }

@@ -33,7 +33,7 @@ public class RecipeController {
     String resultmsg="";
     
     @RequestMapping(value="/getAll",method=RequestMethod.GET)
-    public List<RecipeVO> getAllIngredients(HttpServletRequest request) throws Exception {
+    public List<RecipeVO> getAllRecipes(HttpServletRequest request) throws Exception {
     	List<RecipeVO> result = recipeServce.getRecipes();
          
         logger.info("getAll");
@@ -42,18 +42,10 @@ public class RecipeController {
     }
 
     @RequestMapping(value="/select",method=RequestMethod.POST)
-    public RecipeVO selectRecipe(HttpServletRequest request, @RequestBody Map<String, Object> requestBody) throws Exception {
-
-    	ObjectMapper converter = new ObjectMapper();
+    public RecipeVO selectRecipe(HttpServletRequest request, @RequestBody RecipeVO vo) throws Exception {
+    	logger.info("Recipe Controller Stage : selectRecipe");
     	
-    	RecipeVO vo;
-    	RegInfo regInfo;
-
-    	vo = converter.convertValue(requestBody.get("Recipe")
-    			, new TypeReference<RecipeVO>() {});
-    	regInfo = converter.convertValue(requestBody.get("RegInfo")
-    			, new TypeReference<RegInfo>() {});
-    	RecipeVO result = recipeServce.selectRecipe(vo, regInfo);
+    	RecipeVO result = recipeServce.selectRecipe(vo);
         
         return result;
     }
@@ -65,11 +57,23 @@ public class RecipeController {
     	
     	RecipeVO vo;
     	RegInfo regInfo;
-
+		
     	vo = converter.convertValue(requestBody.get("Recipe")
     			, new TypeReference<RecipeVO>() {});
     	regInfo = converter.convertValue(requestBody.get("RegInfo")
     			, new TypeReference<RegInfo>() {});
+
+		logger.info("Recipe Controller Stage");
+		if (vo != null && regInfo != null)
+		{
+			logger.info("Recipe : " + vo.getRecipe());
+			logger.info("RegInfo : " + regInfo.toString());
+		}
+		else
+		{
+			logger.info("both are null");
+		}
+		
     	Boolean result = recipeServce.registerRecipe(vo, regInfo);
          
         logger.info("register : " + (result ? "success" : "fail"));
@@ -78,18 +82,8 @@ public class RecipeController {
     }
 
     @RequestMapping(value="/delete",method=RequestMethod.POST)
-    public Boolean deleteIngredient(HttpServletRequest request, @RequestBody Map<String, Object> requestBody) throws Exception {
-
-    	ObjectMapper converter = new ObjectMapper();
-    	
-    	RecipeVO vo;
-    	RegInfo regInfo;
-
-    	vo = converter.convertValue(requestBody.get("Recipe")
-    			, new TypeReference<RecipeVO>() {});
-    	regInfo = converter.convertValue(requestBody.get("RegInfo")
-    			, new TypeReference<RegInfo>() {});
-    	Boolean result = recipeServce.deleteRecipe(vo, regInfo);
+    public Boolean deleteRecipe(HttpServletRequest request, @RequestBody RecipeVO vo) throws Exception {
+    	Boolean result = recipeServce.deleteRecipe(vo);
          
         logger.info("delete : " + (result ? "success" : "fail"));
         
@@ -98,18 +92,30 @@ public class RecipeController {
     
 
     @RequestMapping(value="/update",method=RequestMethod.POST)
-    public Boolean updateIngredient(HttpServletRequest request, @RequestBody Map<String, Object> requestBody) throws Exception {
+    public Boolean updateRecipe(HttpServletRequest request, @RequestBody Map<String, Object> requestBody) throws Exception {
 
     	ObjectMapper converter = new ObjectMapper();
     	
     	RecipeVO vo;
     	RegInfo regInfo;
-
+		
     	vo = converter.convertValue(requestBody.get("Recipe")
     			, new TypeReference<RecipeVO>() {});
     	regInfo = converter.convertValue(requestBody.get("RegInfo")
     			, new TypeReference<RegInfo>() {});
-    	
+
+    	//수정 시 regdate 안건드리게 수정 필요(2022.12.27)
+		logger.info("Recipe Controller Stage");
+		if (vo != null && regInfo != null)
+		{
+			logger.info("Recipe : " + vo.getRecipe());
+			logger.info("RegInfo : " + regInfo.toString());
+		}
+		else
+		{
+			logger.info("both are null");
+		}
+		
     	Boolean result = recipeServce.updateRecipe(vo, regInfo);
          
         logger.info("update : " + (result ? "success" : "fail"));

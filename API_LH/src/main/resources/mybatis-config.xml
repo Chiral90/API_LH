@@ -4,5 +4,6 @@
 <configuration>
   <mappers>
     <mapper resource="mappers/IngredientMapper.xml"/>
+    <mapper resource="mappers/RecipeMapper.xml"/>
   </mappers>
 </configuration>
