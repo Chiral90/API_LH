@@ -45,9 +45,9 @@
 	</resultMap>
     <insert id="registerRecipe">
     	insert into Recipe_Info
-    	( code, name, regdate, inuser, indate )
+    	( code, name, quantity, unitprice, regdate, inuser, indate )
     	values
-    	( #{vo.code}, #{vo.name}, #{regInfo.regdate}, #{regInfo.inuser}, #{regInfo.indate} )
+    	( #{vo.code}, #{vo.name}, #{vo.quantity}, #{vo.unitprice}, #{regInfo.regdate}, #{regInfo.inuser}, #{regInfo.indate} )
     </insert>
     <insert id="registerSeq">
     	insert into Recipe_Sequence
@@ -77,20 +77,28 @@
     	update Recipe_Info
     	set
     	name = #{vo.name},
+    	quantity = #{vo.quantity},
+    	unitprice = #{vo.unitprice},
     	indate = #{regInfo.indate},
     	inuser = #{regInfo.inuser}
     	where code = #{vo.code}
     </update>
     <update id="updateRecipeSeq">
-    	replace into Recipe_Sequence
-    	( code, sequence, detail, inuser, indate )
-    	values
-    	( #{code}, #{sequence}, #{detail}, #{regInfo.inuser}, #{regInfo.indate} )
+    	update Recipe_Sequence
+    	set
+    	sequence = #{sequence},
+    	detail = #{detail},
+    	inuser = #{regInfo.inuser},
+    	indate = #{regInfo.indate}
+		where code = #{code}
     </update>
     <update id="updateRecipeIngrs">
-    	replace into Recipe_Ingredients
-    	( code, ingrCode, quantity, inuser, indate )
-    	values
-    	( #{code}, #{ingrCode}, #{quantity}, #{regInfo.inuser}, #{regInfo.indate} )
+    	update Recipe_Ingredients
+    	set
+    	ingrCode = #{ingrCode},
+    	quantity = #{quantity},
+    	inuser = #{regInfo.inuser},
+    	indate = #{regInfo.indate}
+		where code = #{code}
     </update>
 </mapper>

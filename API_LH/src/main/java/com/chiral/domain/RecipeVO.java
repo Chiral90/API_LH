@@ -14,6 +14,10 @@ public class RecipeVO {
 	@JsonProperty
 	private String name;
 	@JsonProperty
+	private float quantity;
+	@JsonProperty
+	private float unitprice;
+	@JsonProperty
 	private List<RecipeSequence> seq;
 	@JsonProperty
 	private List<RecipeIngredients> ingrs;

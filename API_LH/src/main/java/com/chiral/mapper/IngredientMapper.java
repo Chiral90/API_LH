@@ -21,4 +21,6 @@ public interface IngredientMapper {
 	public Boolean updateIngredient(IngredientVO vo);
 	
 	public Boolean registerCost(@Param("ingr")IngredientVO vo, @Param("ri")RegInfo regInfo);
+	
+	public Boolean updateDailyUnitprice(RegInfo regInfo);
 }

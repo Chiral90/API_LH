@@ -109,4 +109,16 @@ public class IngredientServiceImpl implements IngredientService {
 		}
 		return result;
 	}
+	
+	public Boolean updateDailyUnitprice(RegInfo regInfo) {
+		logger.info("service stage - updateDailyUnitprice : ");
+		Boolean result = false;
+		try {
+			result = ingrMapper.updateDailyUnitprice(regInfo);
+		}
+		catch (Exception e) {
+			logger.info("Exception : " + e.toString());
+		}
+		return result;
+	}
 }

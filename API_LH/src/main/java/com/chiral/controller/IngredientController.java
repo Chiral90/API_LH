@@ -100,4 +100,15 @@ public class IngredientController {
         
         return result;
     }
+    
+    @RequestMapping(value="/updateDailyUnitprice", method=RequestMethod.POST)
+    public Boolean updateDailyUnitprice(HttpServletRequest request, @RequestBody RegInfo regInfo) throws Exception {
+    	Boolean result = false;
+    	
+        logger.info("update Daily Unitprice");
+        
+        result = ingrService.updateDailyUnitprice(regInfo);
+        
+        return result;
+    }
 }

@@ -52,4 +52,13 @@
     	( #{ingr.code}, #{ri.regdate}, #{ingr.unit_per_purchase}
     	, #{ingr.price}, #{ri.inuser}, #{ri.indate} )
     </insert>
+    
+    <insert id = "updateDailyUnitprice">
+    	INSERT INTO Master_Cost_Ingr
+		(code, regdate, price, inuser, indate)
+		SELECT
+			code, #{regdate}, price, #{inuser}, #{indate}
+		FROM Temp_Cost_Ingr
+		WHERE regdate = #{regdate}
+    </insert>
 </mapper>

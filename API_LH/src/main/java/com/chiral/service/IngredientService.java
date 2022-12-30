@@ -18,4 +18,6 @@ public interface IngredientService {
 	public Boolean updateIngredient(IngredientVO vo);
 	
 	public Boolean registerCost(IngredientVO vo, RegInfo regInfo);
+	
+	public Boolean updateDailyUnitprice(RegInfo regInfo);
 }
