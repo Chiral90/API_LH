@@ -1,0 +1,121 @@
+use LH;
+
+create table Master_Code (
+	sup char(2),
+    sub char(2),
+    name varchar(10),
+    constraint PK_Master_Code PRIMARY KEY (sup, sub)
+);
+
+create table Master_Info_Ingr (
+	code varchar(10) not null,
+	name varchar(100) not null default '',
+    class_sup char(2) not null default '',
+    class_sub char(2) not null default '',
+    unit_sup char(2) not null default '',
+    unit_sub char(2) not null default '',
+    constraint PK_Master_Info_Ingr PRIMARY KEY (code)
+);
+
+select * from master_code;
+insert master_code
+value ('02', '02', '기타재료');
+
+
+select * from Master_Info_Ingr;
+
+
+create table Master_Cost_Ingr (
+	code varchar(10) not null,
+    regdate varchar(8) not null default '',
+    price decimal not null default 0,
+    unit_per_purchase decimal not null default 0,
+    inuser varchar(10) not null default '',
+    indate varchar(8) not null default '',
+    constraint PK_Master_Cost_Ingr PRIMARY KEY (code, regdate),
+	FOREIGN KEY (`code`) REFERENCES `Master_Info_Ingr` (`code`)
+);
+
+select * from Master_Info_Ingr;
+select * from Master_Cost_Ingr;
+desc Master_Cost_Ingr;
+
+create table Recipe_Info (
+	code varchar(10) not null,
+    name varchar(50) not null,
+    quantity decimal not null default 0,
+    unitprice decimal not null default 0,
+    regdate varchar(8) not null default '',
+    inuser varchar(10) not null default '',
+    indate varchar(8) not null default '',
+    constraint PK_Recipe_Info PRIMARY KEY (code)
+);
+create table Recipe_Sequence (
+	code varchar(10) not null,
+    sequence int not null,
+    detail varchar(1000) not null,
+    regdate varchar(8) not null default '',
+    inuser varchar(10) not null default '',
+    indate varchar(8) not null default '',
+    constraint PK_Recipe_Sequence PRIMARY KEY (code, sequence),
+	FOREIGN KEY (`code`) REFERENCES `Recipe_Info` (`code`)
+);
+
+create table Recipe_Ingredients (
+	code varchar(10) not null,
+    ingrCode varchar(10) not null default '',
+    quantity decimal not null default 0,
+    regdate varchar(8) not null default '',
+    inuser varchar(10) not null default '',
+    indate varchar(8) not null default '',
+    constraint PK_Recipe_Ingredients PRIMARY KEY (code, ingrCode),
+	FOREIGN KEY (`code`) REFERENCES `Recipe_Info` (`code`),
+	FOREIGN KEY (`ingrCode`) REFERENCES `Master_Info_Ingr` (`code`)
+);
+
+select * from Recipe_Info;
+select * from Recipe_Sequence;
+select * from Recipe_Ingredients;
+
+select 
+    	s.sequence, s.detail
+    	from Recipe_Info m
+    	left outer join Recipe_Sequence s on m.code=s.code
+    	where m.code = '000001';
+        
+
+    	select i.ingrCode, i.name as ingrName, i.quantity
+    	from Recipe_Info m
+    	left outer join (
+			select i.code, i.ingrCode, ii.name, i.quantity From Recipe_Ingredients i
+			left outer join Master_Info_Ingr ii on i.ingrCode = ii.code
+			where i.code = '000001'
+        ) i on m.code=i.code
+    	where m.code = '000001';
+
+create table User_Information (
+	id varchar(10) not null,
+    pw varchar(20) not null,
+    regdate varchar(8) not null default '',
+    constraint PK_User_Information PRIMARY KEY (id)
+);
+
+create table Temp_Cost_Ingr (
+	code varchar(10) not null,
+    regdate varchar(8) not null default '',
+    name varchar(1000) not null default '',
+    price decimal not null default 0,
+    constraint PK_Master_Cost_Ingr PRIMARY KEY (code, regdate)
+);
+
+select * from Master_Cost_Ingr;
+
+INSERT INTO Temp_Cost_Ingr
+                    VALUES ('000000', '20221230', 'name', 0);
+                    
+INSERT INTO Master_Cost_Ingr
+(code, regdate, price, inuser, indate)
+select
+	code, '20221230', price, 'Chiral', '20221230'
+from temp_cost_ingr
+where code between '000001' and '000020';
