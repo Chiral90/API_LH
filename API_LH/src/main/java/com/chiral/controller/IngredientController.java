@@ -29,7 +29,7 @@ public class IngredientController {
 	@Autowired
     private IngredientService ingrService;
 	
-	final static Logger logger = LoggerFactory.getLogger(ApiLhApplication.class);
+	final static Logger logger = LoggerFactory.getLogger(IngredientController.class);
      
     String resultmsg="";
     

@@ -28,7 +28,7 @@ public class RecipeController {
 	@Autowired
 	private RecipeService recipeServce;
 
-	final static Logger logger = LoggerFactory.getLogger(ApiLhApplication.class);
+	final static Logger logger = LoggerFactory.getLogger(RecipeController.class);
      
     String resultmsg="";
     
